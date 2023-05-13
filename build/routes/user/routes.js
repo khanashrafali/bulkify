@@ -1,0 +1,25 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const controllers_1 = require("../../controllers");
+const interfaces_1 = require("../../utils/interfaces");
+const isAdminAuth_1 = require("../middlewares/isAdminAuth");
+const isAuth_1 = require("../middlewares/isAuth");
+const isUserAuth_1 = require("../middlewares/isUserAuth");
+const isVendorAuth_1 = require("../middlewares/isVendorAuth");
+const validator_1 = __importDefault(require("./validator"));
+const router = (0, express_1.Router)();
+router.put("/update/me", isUserAuth_1.isUser, validator_1.default.updateProfile, controllers_1.userCtrl.updateProfile);
+router.patch("/:userId", isAdminAuth_1.isAdmin, validator_1.default.updateStatus, controllers_1.userCtrl.updateStatus);
+router.delete("/delete/me", isUserAuth_1.isUser, controllers_1.userCtrl.deleteMe);
+router.get("", isAdminAuth_1.isAdmin, validator_1.default.getUsers, controllers_1.userCtrl.getAppUsers);
+router.get("/admin-dashboard", (0, isAuth_1.isAuth)([interfaces_1.UserRole.SUPER_ADMIN, interfaces_1.UserRole.ADMIN, interfaces_1.UserRole.VENDOR]), controllers_1.userCtrl.adminDashboradInfo);
+router.get("/vendor-dashboard", isVendorAuth_1.isVendor, controllers_1.userCtrl.vendorDashboradInfo);
+router.post("/subscribe", validator_1.default.postSubscribe, controllers_1.userCtrl.postSubscribe);
+router.post("/user-feedback", validator_1.default.postUserFeedback, controllers_1.userCtrl.postUserFeedback);
+router.get("/user-feedback", controllers_1.userCtrl.getFeedBacks);
+router.get("/app-home", controllers_1.userCtrl.getAppHomePage);
+exports.default = router;

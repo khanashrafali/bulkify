@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const controllers_1 = require("../../controllers");
+const interfaces_1 = require("../../utils/interfaces");
+const isAdminAuth_1 = require("../middlewares/isAdminAuth");
+const isAuth_1 = require("../middlewares/isAuth");
+const validator_1 = __importDefault(require("./validator"));
+const router = (0, express_1.Router)();
+router.post("/apply", (0, isAuth_1.isAuth)(), controllers_1.couponCtrl.postApplyCoupon);
+router.post("", isAdminAuth_1.isAdmin, validator_1.default.postAddCoupon, controllers_1.couponCtrl.postAddCoupon);
+router.put("/:couponId", isAdminAuth_1.isAdmin, validator_1.default.putUpdateCoupon, controllers_1.couponCtrl.putUpdateCoupon);
+router.patch("/:couponId", isAdminAuth_1.isAdmin, validator_1.default.patchUpdateCouponStatus, controllers_1.couponCtrl.patchUpdateCouponStatus);
+router.delete("/:couponId", isAdminAuth_1.isAdmin, validator_1.default.deleteCoupon, controllers_1.couponCtrl.deleteCoupon);
+router.get("/applicable/list", validator_1.default.getCoupons, controllers_1.couponCtrl.getCouponByUsers);
+router.get("/:couponId", (0, isAuth_1.isAuth)([interfaces_1.UserRole.USER, interfaces_1.UserRole.SUPER_ADMIN, interfaces_1.UserRole.ADMIN]), validator_1.default.getCoupon, controllers_1.couponCtrl.getCoupon);
+router.get("", (0, isAuth_1.isAuth)([interfaces_1.UserRole.USER, interfaces_1.UserRole.SUPER_ADMIN, interfaces_1.UserRole.ADMIN]), validator_1.default.getCoupons, controllers_1.couponCtrl.getCoupons);
+exports.default = router;

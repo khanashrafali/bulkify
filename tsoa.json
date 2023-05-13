@@ -1,0 +1,31 @@
+{
+  "entryFile": "src/app.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/swagger/controllers/**/*controller.ts"],
+  "spec": {
+    "version": "1.0.0",
+    "name": "Market Place Apis Documentation",
+    "description": "Market Place Node Backend Apis and Documentation",
+    "contact": {
+      "email": "marketplace@gmail.com",
+      "name": "marketplace",
+      "url": "http://marketplace.in"
+    },
+    "outputDirectory": "build/swagger",
+    "specVersion": 3,
+    "basePath": "/api/v1",
+    "securityDefinitions": {
+      "Bearer": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "Add Bearer prefix on jwt token"
+      }
+    },
+    "schemes": ["http", "https"]
+  },
+  "routes": {
+    "routesDir": "src/swagger",
+    "authenticationModule": "./src/swagger/controllers/authentication.ts"
+  }
+}

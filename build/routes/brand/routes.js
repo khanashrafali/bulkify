@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const controllers_1 = require("../../controllers");
+const auth_controller_1 = __importDefault(require("../../controllers/auth.controller"));
+const utils_1 = require("../../utils");
+const isAdminAuth_1 = require("../middlewares/isAdminAuth");
+const validator_1 = __importDefault(require("./validator"));
+const router = (0, express_1.Router)();
+router.post("/uploads", isAdminAuth_1.isAdmin, utils_1.fileHandler.uploadBrandAndCategoryFilesToS3("brands").single("file"), auth_controller_1.default.postUploadFiles);
+router.post("", isAdminAuth_1.isAdmin, validator_1.default.addBrand, controllers_1.brandController.addBrand);
+router.get("", controllers_1.brandController.getBrands);
+router.get("/by-admin", controllers_1.brandController.getBrandsByAdmin);
+router.put("/:brandId", isAdminAuth_1.isAdmin, validator_1.default.updateBrand, controllers_1.brandController.updateBrand);
+router.patch("/:brandId", isAdminAuth_1.isAdmin, validator_1.default.updateStatus, controllers_1.brandController.updateStatus);
+router.get("/:brandId", validator_1.default.getBrand, controllers_1.brandController.getBrand);
+router.delete("/:brandId", isAdminAuth_1.isAdmin, validator_1.default.deleteBrand, controllers_1.brandController.deleteBrand);
+exports.default = router;

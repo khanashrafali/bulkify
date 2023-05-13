@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const controllers_1 = require("../../controllers");
+const router = (0, express_1.Router)();
+router.post("/login", controllers_1.cspApiController.cspLogin);
+router.post("/item-list", controllers_1.cspApiController.cspItemList);
+router.post("/post-online-order", controllers_1.cspApiController.postOnlineOrder);
+router.post("/monitor-online-order", controllers_1.cspApiController.monitorOnlineOrder);
+router.post("/merge-data", controllers_1.cspApiController.saveErpDataIntoMarketPlace);
+exports.default = router;

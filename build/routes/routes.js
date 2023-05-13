@@ -1,0 +1,54 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const _1 = require(".");
+const controllers_1 = require("../controllers");
+const router = (0, express_1.Router)();
+router.use("/api/v1/auth", _1.authRoutes);
+router.use("/api/v1/categories", _1.categoryRoutes);
+router.use("/api/v1/vendors", _1.vendorRoutes);
+router.use("/api/v1/products", _1.productRoutes);
+router.use("/api/v1/collections", _1.collectionRoutes);
+router.use("/api/v1/utils", _1.utilRoutes);
+router.use("/api/v1/users", _1.userRoutes);
+router.use("/api/v1/cart", _1.cartRoutes);
+router.use("/api/v1/order", _1.orderRoutes);
+router.use("/api/v1/coupons", _1.couponRoutes);
+router.use("/api/v1/address", _1.addressRoutes);
+router.use("/api/v1/banks", _1.bankRoutes);
+router.use("/api/v1/slider", _1.sliderRoutes);
+router.use("/api/v1/review", _1.reviewRoutes);
+router.use("/api/v1/admins", _1.adminRoutes);
+router.use("/api/v1/ship-rocket", _1.shipRocketRoutes);
+router.use("/api/v1/payouts", _1.payoutRoutes);
+router.use("/api/v1/content", _1.contentRoutes);
+router.use("/api/v1/inventory", _1.inventoryRoutes);
+router.use("/api/v1/prices", _1.pricesRoutes);
+router.use("/api/v1/erp-api", _1.erpApiRoutes);
+router.use("/api/v1/variants", _1.variantsRoutes);
+router.use("/api/v1/delevery-address", _1.deleveryRoutes);
+router.use("/api/v1/roles", _1.roleRoutes);
+router.use("/api/v1/main-categories", _1.mainCatRoutes);
+router.use("/api/v1/hdfc", _1.hdfcRoutes);
+router.use("/api/v1/wishlist", _1.wishlistRoutes);
+router.use("/api/v1/brands", _1.brandRoutes);
+router.use("/api/v1/ads", _1.adsRoutes);
+router.use("/api/v1/DB-products", _1.badalDaloProductsRoutes);
+router.use("/api/v1/queries", _1.queriesRoutes);
+router.use("/api/v1/notifications", _1.notificationRoutes);
+router.use("/api/v1/*", controllers_1.errorCtrl.handle404);
+// router.use("/panel/", (req, res) => {
+//   res.status(200).sendFile(helper.buildPath("public", "panel", "index.html"));
+// });
+// router.use("/admin-panel/", (req, res) => {
+//   res.status(200).sendFile(helper.buildPath("public", "admin-panel", "index.html"));
+// });
+// router.use("/vendor-panel/", (req, res) => {
+//   res.status(200).sendFile(helper.buildPath("public", "vendor-panel", "index.html"));
+// });
+// router.use("/", (req, res) => {
+//   res.status(200).sendFile(helper.buildPath("public", "user-panel", "index.html"));
+// });
+router.get("/", (req, res) => res.send("Hello from Express"));
+router.use(controllers_1.errorCtrl.errorHandler);
+exports.default = router;

@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const controllers_1 = require("../../controllers");
+const isUserAuth_1 = require("../middlewares/isUserAuth");
+const router = (0, express_1.Router)();
+router.post("/request", isUserAuth_1.isUser, controllers_1.vendorCtrl.becameAVendor);
+router.post("/response", isUserAuth_1.isUser, controllers_1.vendorCtrl.completeVendorProfile);
+router.get("/track-status", controllers_1.hdfcController.getOrderStatus);
+exports.default = router;

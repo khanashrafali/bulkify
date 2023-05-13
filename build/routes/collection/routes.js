@@ -1,0 +1,24 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const controllers_1 = require("../../controllers");
+const auth_controller_1 = __importDefault(require("../../controllers/auth.controller"));
+const utils_1 = require("../../utils");
+const isAdminAuth_1 = require("../middlewares/isAdminAuth");
+const validator_1 = __importDefault(require("./validator"));
+const router = (0, express_1.Router)();
+router.post("/uploads", isAdminAuth_1.isAdmin, utils_1.fileHandler.uploadBrandAndCategoryFilesToS3("collections").single("file"), auth_controller_1.default.postUploadFiles);
+router.patch("/featured/:collectionId", isAdminAuth_1.isAdmin, validator_1.default.patchUpdateCollectionFeaturedStatus, controllers_1.collectionCtrl.patchUpdateCollectionFeaturedStatus);
+router.post("/", isAdminAuth_1.isAdmin, validator_1.default.postAddCollection, controllers_1.collectionCtrl.postAddCollection);
+router.get("/by-admin", isAdminAuth_1.isAdmin, validator_1.default.getCollections, controllers_1.collectionCtrl.getCollectionsByAdmin);
+router.patch("/:collectionId", isAdminAuth_1.isAdmin, validator_1.default.patchUpdateCollectionStatus, controllers_1.collectionCtrl.patchUpdateCollectionStatus);
+// router.put("/attach/:categoryId", isAuth, validator.putAttachCollections, collectionCtrl.putAttachCollections);
+// router.put("/deattach/:categoryId", isAuth, validator.putDeattachCollection, collectionCtrl.putDeattachCollection);
+router.put("/:collectionId", isAdminAuth_1.isAdmin, validator_1.default.putUpdateCollection, controllers_1.collectionCtrl.putUpdateCollection);
+router.delete("/:collectionId", isAdminAuth_1.isAdmin, validator_1.default.deleteCollection, controllers_1.collectionCtrl.deleteCollection);
+router.get("/:collectionId", validator_1.default.getCollection, controllers_1.collectionCtrl.getCollection);
+router.get("", validator_1.default.getCollections, controllers_1.collectionCtrl.getCollections);
+exports.default = router;
